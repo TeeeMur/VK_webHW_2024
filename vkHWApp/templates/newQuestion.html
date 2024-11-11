@@ -1,0 +1,44 @@
+{% extends 'layouts/baseLayout.html' %}
+
+{% block content %}
+<div class="col-9 left-container">
+                <div class="d-flex justify-content-between mb-2">
+                    <h1 id="new-question-label">
+                        New Question
+                    </h1>
+                </div>
+                <div class="container-fluid new-question">
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="new-question-section">
+                                <span class="new-question-name">Title</span>
+                            </label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control new-question-forms title-form" type="text" placeholder="How to ...?" aria-label="Title">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="new-question-section">
+                                <span class="new-question-name">Question</span>
+                            </label>
+                        </div>
+                        <div class="col-9">
+                            <textarea class="new-question-forms question-text-form" type="text" placeholder="I have troubles with..." aria-label="Text"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="new-question-section">
+                                <span class="new-question-name">Tags</span>
+                            </label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control new-question-forms question-tags-form" type="text" placeholder="Kotlin, JDK or smth else" aria-label="Tags">
+                            <button class="question-ask-button"><span class="question-ask-button-text">ASK!</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'layouts/baseLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="col-9 ps-5 left-container left-questions">
+        <div class="d-flex justify-content-between mb-2">
+            <h1 href="{% url 'index' %}" id="QuestionsLabel">
+                New Questions
+            </h1>
+            <a href="{% url 'hotQuestions' %}" id="HotQuestions">
+                Hot Questions
+            </a>
+        </div>
+        {% for question in questions %}
+            {% include 'components/index-question-item.html' %}
+        {% endfor %}
+        {% if questions.has_other_pages %}
+            {% include 'components/paginator.html' %}
+        {% endif %}
+    </div>
+{% endblock %}

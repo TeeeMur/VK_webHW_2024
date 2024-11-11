@@ -1,0 +1,65 @@
+{% extends 'layouts/baseLayout.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="col-9 left-container">
+    <div class="d-flex justify-content-between mb-2">
+        <h1 href="" id="new-question-label">
+            Settings
+        </h1>
+    </div>
+    <div class="container-fluid new-question">
+        <div class="row">
+            <div class="col-3 col-3-width">
+                <label class="settings-section" for="nickname-form">
+                    Nick
+                </label>
+            </div>
+            <div class="col-6">
+                <input id="nickname-form" class="form-control settings-input-form" type="text"
+                       placeholder="Nickname"
+                       aria-label="Title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 col-3-width">
+                <label for="email-reg" class="settings-section">
+                    E-mail
+                </label>
+            </div>
+            <div class="col-6">
+                <input id="email-reg" class="form-control settings-input-form" type="text"
+                       placeholder="E-mail"
+                       aria-label="Title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 col-3-width">
+                <label class="settings-section"><span class="new-question-name">Avatar</span>
+                </label>
+            </div>
+            <div class="col-6 d-inline-flex">
+                <input class="form-control settings-input-form" type="text" placeholder="C:\..."
+                       aria-label="Tags">
+                <button class="choose-button">
+                    <span class="choose-button-text">Choose</span>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-3 col-3-width"></div>
+                <div class="col-6">
+                    <div>
+                        <img class="settings-avatar" src="{% static 'img/AvatarImg.svg' %}" alt="New avatar">
+                    </div>
+                    <div class="d-flex justify-content-start">
+                        <button class="settings-save-button"><span
+                                class="choose-button-text">Save</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

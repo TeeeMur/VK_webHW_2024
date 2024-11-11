@@ -1,0 +1,45 @@
+{% load static %}
+
+<div class="container question-and-answer">
+    <div class="row">
+        <div class="col-1">
+            <img class="avatar" src="{% static 'img/AvatarImg.svg' %}" alt="ProfileImg">
+            <div class="container question-rating-container">
+                <div class="row question-rating d-flex justify-content-center">
+                    {{ question.rating }}
+                </div>
+                <div class="row">
+                    <button type="button" class="col-6 p-0 question-left-button">
+                        <span class="question-button-sign">+</span>
+                    </button>
+                    <button type="button" class="col-6 p-0 question-right-button">
+                        <span class="question-button-sign">-</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-11">
+            <a href="{% url 'question' question_id=question.id %}" class="question-name">
+                {{ question.name }}
+            </a>
+            <div class="question-text">
+                {{ question.text }}
+            </div>
+            <div class="row question-links">
+                <div class="col-2 d-flex align-items-center">
+                    <a href="{% url 'question' question_id=question.id %}">
+                        Answer({{ question.answers_count }})
+                    </a>
+                </div>
+                <div class="col-10">
+                    Tags:
+                    {% for each_tag in question.tags.all %}
+                    <a href="{% url 'tagView' tag=each_tag %}" type="button" class="tag">
+                        {{ each_tag.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

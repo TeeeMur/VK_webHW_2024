@@ -1,0 +1,56 @@
+{% extends 'layouts/baseLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="col-9 left-container container">
+    {% include 'components/ask-question.html' %}
+    <hr class="one-question-sep">
+    <div class="one-question-answers">
+        {% for each_answer in answers %}
+        <div class="container question-and-answer">
+            <div class="row">
+                <div class="col-1">
+                    <img class="avatar" src="{% static 'img/AvatarImg.svg' %}" alt="ProfileImg">
+                    <div class="container question-rating-container">
+                        <div class="row question-rating d-flex justify-content-center">
+                            {{ each_answer.rating }}
+                        </div>
+                        <div class="row">
+                            <button type="button" class="col-6 p-0 question-left-button">
+                                <span class="question-button-sign">+</span>
+                            </button>
+                            <button type="button" class="col-6 p-0 question-right-button">
+                                <span class="question-button-sign">-</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-11">
+                    <div class="answer-text">
+                        {{ each_answer.text }}
+                    </div>
+                    <label class="correct-checkbox">
+                        <input type="checkbox" class="one-question-answer-correct" name="Correct!" />
+                        Correct!
+                    </label>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <hr class="one-question-sep">
+        <div class="container">
+            <div class="row">
+                <div class="col-1">
+                    <img class="answer-avatar" src="{% static 'img/AvatarImg.svg' %}" alt="ProfileImg">
+                </div>
+                <label class="col-9 p-0 pe-3">
+                    <textarea class="your-answer" placeholder="Your answer:..."></textarea>
+                </label>
+                <div class="col-2 p-0">
+                    <button href="" type="button" class="answer-button">Answer!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

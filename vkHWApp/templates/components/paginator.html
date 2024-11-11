@@ -1,0 +1,34 @@
+<div class="pages-container">
+    <div class="pages">
+        <a href="?page=1" type="button" class="page-counter">
+                <span class="page-counter-sign">
+                    {% if questions.number <= 2 %}
+                        1
+                    {% endif %}
+                    {% if questions.number > 2 %}
+                        <<
+                    {% endif %}
+                </span>
+        </a>
+        {% if questions.has_previous and questions.number != 2 %}
+            <a href="?page={{ questions.previous_page_number }}" type="button" class="page-counter">
+                <span class="page-counter-sign">{{ questions.previous_page_number }}</span>
+            </a>
+        {% endif %}
+        {% if questions.number != 1 %}
+            <a href="?page={{ questions.number }}" type="button" class="page-counter">
+                <span class="page-counter-sign">{{ questions.number }}</span>
+            </a>
+        {% endif %}
+        {% if questions.has_next %}
+            <a href="?page={{ questions.next_page_number }}" type="button" class="page-counter">
+                <span class="page-counter-sign">{{ questions.next_page_number }}</span>
+            </a>
+        {% endif %}
+        {% if questions.next_page_number != questions.paginator.num_pages and questions.number != questions.paginator.num_pages %}
+            <a href="?page={{ questions.paginator.num_pages }}" type="button" class="page-counter">
+                <span class="page-counter-sign">>></span>
+            </a>    
+        {% endif %}
+    </div>
+</div>

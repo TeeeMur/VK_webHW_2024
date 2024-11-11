@@ -1,0 +1,32 @@
+{% load static %}
+
+<div class="row one-question">
+    <div class="col-2 d-flex flex-column align-items-center">
+        <img class="one-question-avatar" src="{% static 'img/AvatarImg.svg' %}" alt="ProfileImg">
+        <div class="container question-rating-container">
+            <div class="row question-rating d-flex justify-content-center">
+                {{ question.rating }}
+            </div>
+            <div class="row">
+                <button type="button" class="col-6 p-0 question-left-button">
+                    <span class="question-button-sign">+</span>
+                </button>
+                <button type="button" class="col-6 p-0 question-right-button">
+                    <span class="question-button-sign">-</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-10">
+        <h2 id="one-question-howto">{{ question.name }}</h2>
+        <div class="one-question-text">
+            {{ question.text }}
+        </div>
+        <div class="one-question-tags">
+            <span class="one-question-tags-header">Tags:</span>
+            {% for each_tag in question.tags.all %}
+            <a href="{% url 'tagView' tag=each_tag.name %}" class="tag">{{ each_tag.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
