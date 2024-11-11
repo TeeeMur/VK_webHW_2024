@@ -50,7 +50,11 @@ def settings(request):
 
 def tag_view(request, tag):
     page = request.GET.get('page', 1)
-    questions = paginate(Question.objects.get_questions_by_tag(tag), page)
+    try:
+        questions_by_tag = Question.objects.get_questions_by_tag(tag)
+    except Question.DoesNotExist as e:
+        return handler404(request)
+    questions = paginate(questions_by_tag, page)
     return render(request, 'tagQuestions.html',
                   {'questions': questions, 'tag': tag, 'popular_tags': popular_tags})
 
