@@ -17,8 +17,7 @@ def paginate(objects, page, per_page=10):
 
 
 def index(request):
-    page = request.GET.get('page', 1)
-    questions = paginate(Question.objects.get_new_questions(), page)
+    questions = paginate(Question.objects.get_new_questions(), request.GET.get('page', 1))
     return render(request, "index.html",
                   {'questions': questions, 'popular_tags': popular_tags})
 
@@ -49,19 +48,16 @@ def settings(request):
 
 
 def tag_view(request, tag):
-    page = request.GET.get('page', 1)
     try:
         questions_by_tag = Question.objects.get_questions_by_tag(tag)
     except Question.DoesNotExist as e:
         return handler404(request)
-    questions = paginate(questions_by_tag, page)
-    return render(request, 'tagQuestions.html',
-                  {'questions': questions, 'tag': tag, 'popular_tags': popular_tags})
+    questions = paginate(questions_by_tag, request.GET.get('page', 1))
+    return render(request, 'tagQuestions.html',{'questions': questions, 'tag': tag, 'popular_tags': popular_tags})
 
 
 def hot_questions(request):
-    page = request.GET.get('page', 1)
-    questions = paginate(Question.objects.get_hot_questions(), page)
+    questions = paginate(Question.objects.get_hot_questions(), request.GET.get('page', 1))
     return render(request, 'hotQuestions.html',
                   {'questions': questions, 'popular_tags': popular_tags})
 
