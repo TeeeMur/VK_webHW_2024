@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import *
 
-def paginate(objects, page, per_page=10):
+def paginate(objects, page, per_page=20):
     paginator = Paginator(objects, per_page)
     try:
         page_to_return = paginator.page(page)

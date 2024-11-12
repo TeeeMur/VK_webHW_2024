@@ -29,7 +29,7 @@ class Command(BaseCommand):
             
             questions_list = [Question(name=f'Question_{i + 1}', 
                                        author = Profile.objects.get(pk=random.randint(1, max_profile_id)), 
-                                       text=f'text {i}' * (i % 30)) for i in range(questions_count)]
+                                       text=f'text {i}' * (i % 30 + 1)) for i in range(questions_count)]
             Question.objects.bulk_create(questions_list)
 
             print('questions added')
@@ -46,7 +46,7 @@ class Command(BaseCommand):
             answers_list = [Answer(
                 reference_question=random.choice(question_objects),
                 author=Profile.objects.get(pk=random.randint(1, max_profile_id)),
-                text=f'answer {i}' * (i % 25)) for i in range(answers_count)]
+                text=f'answer {i}' * (i % 25 + 1)) for i in range(answers_count)]
 
             Answer.objects.bulk_create(answers_list)
 
