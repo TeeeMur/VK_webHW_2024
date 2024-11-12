@@ -42,39 +42,11 @@
             <div class="col-3 p-0">
                 <h2 class="right-header">Popular Tags</h2>
                 <div class="container-fluid tag-container">
-                    <a href="{% url 'tagView' tag='Android_Studio' %}" type="button" class="tag">
-                        Android_Studio
-                    </a>
-                    <a href="{% url 'tagView' tag='Kotlin' %}" type="button" class="tag" style="color: darkviolet">
-                        Kotlin
-                    </a>
-                    <a href="{% url 'tagView' tag='Python' %}" type="button" class="tag" style="color: Blue">
-                        Python
-                    </a>
-                    <a href="{% url 'tagView' tag='Java' %}" type="button" class="tag" style="color: darkred">
-                        Java
-                    </a>
-                    <a href="{% url 'tagView' tag='Kotlin_Coroutines' %}" type="button" class="tag" style="color: darkviolet">
-                        Kotlin_Coroutines
-                    </a>
-                    <a href="{% url 'tagView' tag='scrcpy' %}" type="button" class="tag" style="color: Blue">
-                        scrcpy
-                    </a>
-                    <a href="{% url 'tagView' tag='adb' %}" type="button" class="tag" style="color: Green">
-                        adb
-                    </a>
-                    <a href="{% url 'tagView' tag='Android_Studio' %}" type="button" class="tag">
-                        Android_Studio
-                    </a>
-                    <a href="{% url 'tagView' tag='Activity' %}" type="button" class="tag" style="color: green">
-                        Activity
-                    </a>
-                    <a href="{% url 'tagView' tag='Kotlin_Coroutines' %}" type="button" class="tag" style="color: darkviolet">
-                        Kotlin_Coroutines
-                    </a>
-                    <a href="{% url 'tagView' tag='JDK' %}" type="button" class="tag" style="color: darkred">
-                        JDK
-                    </a>
+                    {% for popular_tag in popular_tags %}
+                        <a href="{% url 'tagView' tag=popular_tag.name %}" type="button" class="tag">
+                            {{ popular_tag.name }}
+                        </a>
+                        {% endfor %}
                 </div>
                 <h2 class="right-header">Best Members</h2>
                 <div class="container-fluid">

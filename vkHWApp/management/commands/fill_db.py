@@ -2,6 +2,7 @@ import random
 import string
 from django.core.management.base import BaseCommand, CommandParser
 from vkHWApp.models import *
+import time
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
@@ -12,69 +13,75 @@ class Command(BaseCommand):
             tags_count = profiles_count
             likes_count = profiles_count * 200
 
+            start_time = time.time()
+
             profiles_list = [Profile(name=f'profile_{i + 1}') for i in range(profiles_count)]
             Profile.objects.bulk_create(profiles_list)
 
+            print('profiles added')
+
             tags_list = [Tag(name=f"tag {i + 1}") for i in range(tags_count)]
             Tag.objects.bulk_create(tags_list)
+
+            print('tags added')
+
+            max_profile_id = Profile.objects.count()
             
             questions_list = [Question(name=f'Question_{i + 1}', 
-                                       author = random.choice(Profile.objects.all()), 
-                                       text=''.join(random.choices(string.ascii_letters,
-                                        k=random.randint(0, 400)))) for i in range(questions_count)]
+                                       author = Profile.objects.get(pk=random.randint(1, max_profile_id)), 
+                                       text=f'text {i}' * (i % 30)) for i in range(questions_count)]
             Question.objects.bulk_create(questions_list)
+
+            print('questions added')
 
             tags_objects = list(Tag.objects.all())
 
-            for each_question in Question.objects.all():
+            for each_question in list(Question.objects.all()):
                 tags = random.sample(tags_objects, random.randint(1, 3))
                 for each_tag in tags:
                     each_question.tags.add(each_tag)
 
+            question_objects = list(Question.objects.all())
+
             answers_list = [Answer(
-                reference_question=random.choice(Question.objects.all()),
-                author=random.choice(Profile.objects.all()),
-                text=''.join(random.choices(string.ascii_letters,
-                                        k=random.randint(0, 100)))) for i in range(answers_count)]
+                reference_question=random.choice(question_objects),
+                author=Profile.objects.get(pk=random.randint(1, max_profile_id)),
+                text=f'answer {i}' * (i % 25)) for i in range(answers_count)]
 
             Answer.objects.bulk_create(answers_list)
-            answers_like_pairs = [[each_profile, list()] for each_profile in Profile.objects.all()]
-            questions_like_pairs = [[each_profile, list()] for each_profile in Profile.objects.all()]
 
-            likes_last_count = likes_count
+            print('answers added')
 
-            answers = list(Answer.objects.all())
-            questions = list(Question.objects.all())
-            for each_pair in range(len(questions_like_pairs)):
-                questions_like_pairs[each_pair][1].extend(questions)
-                likes_last_count -= len(questions)
-                if (likes_last_count < (likes_count // 10) * 9):
-                    break
-    
-            for each_pair in range(len(answers_like_pairs)):
-                answers_like_pairs[each_pair][1].extend(answers)
-                likes_last_count -= len(answers)
-                if (likes_last_count <= 0):
-                    break
-                elif (likes_last_count <= likes_count // 10):
-                    answers_like_pairs[each_pair][1].extend(answers)
-                    break
-            
             answers_like_list = []
             questions_like_list = []
 
-            for each_pair in answers_like_pairs:
-                if len(each_pair[1]) > 0:
-                    for each_answer in each_pair[1]:
-                        answers_like_list.append(AnswerLike(author=each_pair[0], this_answer=each_answer))
+            questions_required_count = int(likes_count * 0.09)
 
-            for each_pair in questions_like_pairs:
-                if len(each_pair[1]) > 0:
-                    for each_answer in each_pair[1]:
-                        questions_like_list.append(QuestionLike(author=each_pair[0], this_question=each_answer))
+            for each_profile in list(Profile.objects.all()):
+                for each_question in list(Question.objects.all()):
+                    questions_like_list.append(QuestionLike(author=each_profile, this_question=each_question))
+                if len(questions_like_list) >= int(questions_required_count):
+                    break
+
+            print('questions likes created')
+
+            for each_profile in list(Profile.objects.all()):
+                for each_answer in list(Answer.objects.all()):
+                    answers_like_list.append(AnswerLike(author=each_profile, this_answer=each_answer))
+                if len(answers_like_list) + len(questions_like_list) >= likes_count:
+                    break
+            
+            print('answers likes created')
 
             AnswerLike.objects.bulk_create(answers_like_list)
+            print('answers likes added')
+
             QuestionLike.objects.bulk_create(questions_like_list)
+            print('questions likes added')
+            creation_time = time.time() - start_time
+            print(f'time of creation: {creation_time}')
+
+            
     
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(

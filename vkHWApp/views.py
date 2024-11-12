@@ -3,8 +3,6 @@ from django.contrib import admin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import *
 
-popular_tags = Tag.objects.get_ten_popular_tags()
-
 def paginate(objects, page, per_page=10):
     paginator = Paginator(objects, per_page)
     try:
@@ -18,6 +16,7 @@ def paginate(objects, page, per_page=10):
 
 def index(request):
     questions = paginate(Question.objects.get_new_questions(), request.GET.get('page', 1))
+    popular_tags = Tag.objects.get_ten_popular_tags()
     return render(request, "index.html",
                   {'questions': questions, 'popular_tags': popular_tags})
 
@@ -28,23 +27,28 @@ def question(request, question_id):
     except Question.DoesNotExist as e:
         return handler404(request)
     answers = Answer.objects.get_answers_to_question(question_id)
+    popular_tags = Tag.objects.get_ten_popular_tags()
     return render(request, 'oneQuestionAndAnswers.html', {'question': this_question, 'answers': answers, 'popular_tags': popular_tags})
 
 
 def new_question(request):
-    return render(request, 'newQuestion.html')
+    popular_tags = Tag.objects.get_ten_popular_tags()
+    return render(request, 'newQuestion.html', {'popular_tags': popular_tags})
 
 
 def sign_up(request):
-    return render(request, 'registration.html')
+    popular_tags = Tag.objects.get_ten_popular_tags()
+    return render(request, 'registration.html', {'popular_tags': popular_tags})
 
 
 def login(request):
-    return render(request, 'login.html')
+    popular_tags = Tag.objects.get_ten_popular_tags()
+    return render(request, 'login.html', {'popular_tags': popular_tags})
 
 
 def settings(request):
-    return render(request, 'settings.html')
+    popular_tags = Tag.objects.get_ten_popular_tags()
+    return render(request, 'settings.html', {'popular_tags': popular_tags})
 
 
 def tag_view(request, tag):
@@ -53,14 +57,17 @@ def tag_view(request, tag):
     except Question.DoesNotExist as e:
         return handler404(request)
     questions = paginate(questions_by_tag, request.GET.get('page', 1))
+    popular_tags = Tag.objects.get_ten_popular_tags()
     return render(request, 'tagQuestions.html',{'questions': questions, 'tag': tag, 'popular_tags': popular_tags})
 
 
 def hot_questions(request):
     questions = paginate(Question.objects.get_hot_questions(), request.GET.get('page', 1))
+    popular_tags = Tag.objects.get_ten_popular_tags()
     return render(request, 'hotQuestions.html',
                   {'questions': questions, 'popular_tags': popular_tags})
 
 
 def handler404(request):
+    popular_tags = Tag.objects.get_ten_popular_tags()
     return render(request, '404.html', {'popular_tags': popular_tags}, status=404)

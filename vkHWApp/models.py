@@ -3,6 +3,7 @@ from django.contrib.auth.models import User as AuthUser
 
 
 class Profile(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=25, null=False, blank=False)
     user = models.OneToOneField(AuthUser, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
