@@ -187,6 +187,7 @@ button:active {
     color: green;
     padding: 2px 4px 2px;
     background-color: #F0F0F0;
+    font-weight: normal;
 }
 
 .tag-container {

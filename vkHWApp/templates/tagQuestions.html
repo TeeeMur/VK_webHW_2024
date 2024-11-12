@@ -7,9 +7,9 @@
     <div class="d-flex justify-content-between mb-2">
         <h1 href="" id="QuestionsLabel">
             Tag:
-            <button type="button" class="tag tag-header">
-                {{ tag.name }}
-            </button>
+            <a href="{% url 'tagView' tag=tag %}" type="button" class="tag">
+                {{ tag }}
+            </a>
         </h1>
     </div>
     {% for question in questions %}
