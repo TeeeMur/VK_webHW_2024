@@ -27,7 +27,7 @@ class Tag(models.Model):
 
 class QuestionManager(models.Manager):
     def get_new_questions(self):
-        return self.order_by('created_at').annotate(rating=models.Count('questionlike'), answers_count=models.Count('answer'))
+        return self.order_by('-created_at').annotate(rating=models.Count('questionlike'), answers_count=models.Count('answer'))
     
     def get_hot_questions(self):
         return self.annotate(answers_count=models.Count('answer'), rating=models.Count('questionlike')).order_by('-answers_count', '-rating')
